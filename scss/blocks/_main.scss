@@ -1,0 +1,580 @@
+$breakpoints: (
+  "xs-phone": 320px,
+  "phone": 480px,
+  "tablet": 768px,
+  "desktop": 1024px,
+  "widescreen": 1200px,
+);
+
+$media-expressions: (
+  "screen": "screen",
+  "print": "print",
+  "handheld": "handheld",
+  "landscape": "(orientation: landscape)",
+  "portrait": "(orientation: portrait)",
+  "retina2x":
+    "(-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx)",
+  "retina3x":
+    "(-webkit-min-device-pixel-ratio: 3), (min-resolution: 350dpi), (min-resolution: 3dppx)",
+);
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-size: 14px;
+  font-family: "Open Sans", sans-serif;
+  line-height: 1.71;
+  color: $dark-gray;
+  background-color: $light-gray;
+  margin: 0;
+
+  @include media(">=desktop") {
+    font-size: 18px;
+    line-height: 1.66;
+  }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-weight: 300;
+}
+
+h2 {
+  font-size: 24px;
+  line-height: 1.16;
+
+  @include media(">=tablet") {
+    font-size: 40px;
+    line-height: 1.2;
+  }
+
+  @include media(">=desktop") {
+    font-size: 50px;
+    line-height: 1.36;
+  }
+}
+
+h3 {
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 1.33;
+
+  @include media(">=desktop") {
+    font-size: 30px;
+    line-height: 1;
+  }
+}
+
+h4 {
+  font-size: 18px;
+  line-height: 1.25;
+
+  @include media(">=tablet") {
+    font-size: 20px;
+  }
+
+  @include media(">=desktop") {
+    font-size: 24px;
+  }
+}
+
+ul {
+  @extend %list-reset;
+
+  a {
+    @include animate(color);
+    text-decoration: none;
+
+    &:hover {
+      color: $primary-color;
+    }
+  }
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+#wrapper {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+
+  &:after {
+    @include animate(opacity z-index background);
+    content: "";
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    opacity: 0;
+    z-index: -1;
+    background-color: transparent;
+  }
+
+  @include media(">=desktop") {
+    &:after {
+      display: none;
+    }
+  }
+}
+
+.container {
+  width: 100%;
+  max-width: 860px;
+  padding: 0 20px;
+  margin: 0 auto;
+
+  @include media(">=widescreen") {
+  }
+}
+
+.container-lg {
+  max-width: 980px;
+}
+
+#header {
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  background: rgba(#000000, 0.3);
+  z-index: 1;
+  padding: 15px 0;
+
+  @include media(">=tablet") {
+    height: 102px;
+  }
+
+  .container-lg {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo {
+    @include animate(color);
+    font-size: 39px;
+    color: $white;
+    text-decoration: none;
+    z-index: 9;
+
+    &:hover {
+      color: $primary-color;
+    }
+
+    &:active {
+      color: $white;
+      opacity: 0.3;
+    }
+  }
+
+  .navbar-nav {
+    text-transform: uppercase;
+    font-weight: 700;
+
+    @include media(">=desktop") {
+      display: flex;
+      text-transform: capitalize;
+      font-weight: normal;
+      margin: 0 -40px;
+    }
+
+    > li {
+      box-shadow: 0px 1px 0px #000000,
+        inset 0px 1px 0px rgba(255, 255, 255, 0.15);
+      border-top: 1px solid $black;
+      padding: 30px 20px;
+
+      @include media(">=desktop") {
+        box-shadow: none;
+        border-top: 0;
+        padding: 0 40px;
+      }
+
+      a {
+        color: $white;
+
+        &:hover {
+          color: $primary-color;
+        }
+
+        &:active {
+          color: $white;
+          opacity: 0.3;
+        }
+      }
+    }
+  }
+}
+
+.nav-active {
+  overflow: hidden;
+
+  #wrapper {
+    &:after {
+      opacity: 1;
+      background-color: rgba($dark-gray, 0.7);
+      z-index: 0;
+    }
+  }
+
+  .main-nav {
+    visibility: visible;
+    left: 0;
+  }
+
+  .nav-opener {
+    width: 30px;
+
+    span {
+      opacity: 0;
+    }
+
+    &:before,
+    &:after {
+      transform: rotate(-45deg);
+      top: 50%;
+      left: 0;
+      right: 0;
+    }
+
+    &:before {
+      transform: rotate(45deg);
+    }
+  }
+}
+
+.main-nav {
+  @include animate(visibility right left);
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: -100%;
+  bottom: 0;
+  background-color: $dark-gray;
+  height: 100vh;
+  overflow: hidden;
+  visibility: hidden;
+  z-index: 5;
+  padding-top: 70px;
+
+  @include media(">=350px") {
+    width: 250px;
+    left: -250px;
+  }
+
+  @include media(">=tablet") {
+    padding-top: 83px;
+  }
+
+  @include media(">=desktop") {
+    width: auto;
+    position: static;
+    height: auto;
+    visibility: visible;
+    overflow: visible;
+    background-color: transparent;
+    padding-top: 0;
+  }
+}
+
+.nav-opener {
+  display: block;
+  width: 50px;
+  height: 24px;
+  position: absolute;
+  top: 21px;
+  right: 20px;
+  text-indent: -9999px;
+  z-index: 5;
+
+  @include media(">=tablet") {
+    top: 38px;
+  }
+
+  @include media(">=desktop") {
+    display: none;
+  }
+
+  &:hover {
+    &:after,
+    &::before,
+    span {
+      background-color: $primary-color;
+    }
+  }
+
+  &:after,
+  &:before,
+  span {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: $white;
+    border-radius: 2px;
+    transition: all 0.3s;
+  }
+
+  &:before {
+    top: 0;
+  }
+
+  span {
+    top: 50%;
+  }
+
+  &:after {
+    top: 100%;
+  }
+}
+
+.resize-active {
+  .navbar-nav,
+  .main-nav {
+    transition: none;
+  }
+}
+
+.intro {
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  background-repeat: no-repeat, no-repeat;
+  background-size: 0, cover;
+  background-position: 0, center;
+  color: $white;
+  padding: 70px 0 0;
+
+  @include media(">=tablet") {
+    background-size: 800px, cover;
+    background-position: 20% bottom, center;
+    padding: 102px 0 30px;
+  }
+
+  @include media(">=desktop") {
+    background-size: 850px, cover;
+    background-position: 20% bottom, center;
+  }
+
+  @include media(">=widescreen") {
+    background-size: auto, cover;
+    background-position: 65% 210px, center;
+  }
+
+  .container-lg {
+    height: 100%;
+
+    @include media(">=tablet") {
+      padding-top: 40px;
+    }
+  }
+
+  .content-block {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+
+    @include media(">=tablet") {
+      display: block;
+      width: 42%;
+      padding-top: 27px;
+    }
+  }
+
+  .content-holder {
+    position: relative;
+    z-index: 0;
+    padding: 20px 0;
+
+    &:before {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: -50%;
+      right: -50%;
+      top: 0;
+      background-color: $dark-gray;
+      z-index: -1;
+      @include media(">=tablet") {
+        display: none;
+      }
+    }
+
+    &:after {
+      content: "";
+      position: absolute;
+      width: 310px;
+      height: 280px;
+      background-image: url(/img/phonescreen.png);
+      background-position: center;
+      background-size: cover;
+      transform: translate(-50%, -100%);
+      top: 0;
+      left: 50%;
+      margin-left: -75px;
+
+      @include media(">=tablet") {
+        display: none;
+      }
+    }
+  }
+
+  .download-list {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @include media(">=tablet") {
+      margin: 0 -18px 28px;
+    }
+
+    @include media(">=desktop") {
+      margin: 0 -18px 42px;
+    }
+
+    > li {
+      padding: 0 18px;
+
+      a {
+        @include animate(opacity);
+
+        &:hover {
+          opacity: 0.5;
+        }
+      }
+    }
+  }
+
+  .btn {
+    min-width: 280px;
+    margin-bottom: 20px;
+
+    @include media(">=tablet") {
+      margin-bottom: 50px;
+    }
+
+    @include media(">=desktop") {
+      margin-bottom: 70px;
+    }
+  }
+
+  h2 {
+    margin: 13px 0;
+
+    @include media(">=tablet") {
+      margin-bottom: 13px;
+    }
+  }
+
+  .icons {
+    font-size: 40px;
+
+    @include media(">=tablet") {
+      font-size: 48px;
+    }
+  }
+
+  .icon-apple {
+    color: $white;
+    font-size: 40px;
+
+    @include media(">=tablet") {
+      font-size: 54px;
+    }
+  }
+
+  .icon-android {
+    color: #a4c639;
+  }
+
+  .microsoft-icon {
+    width: 40px;
+  }
+}
+
+.application {
+  text-align: center;
+
+  .holder-block {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column-reverse;
+
+    @include media('>=tablet') {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      margin: 0 -15px;
+    }
+
+    @include media('>=desktop') {
+      display: block;
+      margin: 0;
+    }
+  }
+
+  .row,
+  .content-holder {
+
+    @include media('>=tablet') {
+      width: 50%;
+      padding: 0 15px;
+    }
+
+    @include media('>=desktop') {
+      width: auto;
+      display: flex;
+      flex-wrap: wrap;
+      margin: 0 -15px;
+    }
+  }
+
+  .row {
+
+    .col {
+      display: none;
+
+      @include media('>=desktop') {
+        display: block;
+      }
+
+      &:last-child {
+        display: block;
+      }
+    }
+  }
+
+  .content-holder {
+    @include media('>=tablet') {
+      text-align: left;
+    }
+
+    @include media('>=desktop') {
+      text-align: center;
+    }
+  }
+
+  .col {
+    padding: 0 15px;
+
+    @include media('>=desktop') {
+      width: 33.3%;
+    }
+  }
+}
